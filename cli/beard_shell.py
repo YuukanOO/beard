@@ -11,7 +11,10 @@ class BeardShell(cmd.Cmd):
     
     def do_t(self, arg):
         'ONLY FOR TESTS!'
-        print(self.tokenizer.tokenize_from_file('corpus/fr.corpus'))
+        tokens = self.tokenizer.tokenize_from_file('corpus/fr.corpus')
+        print(tokens)
+        poss = pos.PartOfSpeech.create_from_tokens(tokens)
+        print(poss)
     
     def do_bye(self, arg):
         'Exit the Beard shell'
