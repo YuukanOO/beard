@@ -9,6 +9,17 @@ class PartOfSpeech:
         self.parent = parent_value
         self.before = {}
         self.after = {}
+        
+    def pos_after(self, pos):
+        """
+        Gets the probability of having the given pos knowing we have
+        this pos.
+        """
+        
+        if pos not in self.after:
+            return 0.0
+        
+        return self.after[pos] / self.occurence
     
     def __str__(self):
         return "%s - %s" % (self.value, self.occurence)
@@ -87,6 +98,11 @@ class PartOfSpeech:
         # TODO Computes emission and transition probabilities
         
         ################# EXPERIMENTS
+        
+        a = value_to_pos['Punc']
+        b = value_to_pos['Nom']
+        
+        print(b.pos_after(a))
         
 #         xxx = [value_to_pos['Nom'].after[x] for x in value_to_pos['Nom'].after if x.parent and x.parent == 'Ver']
 #         print(sum(xxx))
