@@ -9,18 +9,27 @@ class PartOfSpeech:
         self.parent = parent_value
         self.before = {}
         self.after = {}
-        
-    def pos_after(self, pos):
+    
+    def being_before(self, pos_obj):
         """
-        Gets the probability of having the given pos knowing we have
-        this pos.
+        Gets the probability of having this pos before given pos_obj.
         """
         
-        if pos not in self.after:
+        if pos_obj not in self.after:
             return 0.0
         
-        return self.after[pos] / self.occurence
+        return self.after[pos_obj] / self.occurence
     
+    def being_after(self, pos_obj):
+        """
+        Gets the probability of having this pos after given pos_obj.
+        """
+    
+        if pos_obj not in self.before:
+            return 0.0
+        
+        return self.before[pos_obj] / self.occurence
+        
     def __str__(self):
         return "%s - %s" % (self.value, self.occurence)
     
@@ -94,15 +103,13 @@ class PartOfSpeech:
             else:
                 previous_tag = tag
                 p_pos = c_pos
-            
-        # TODO Computes emission and transition probabilities
         
         ################# EXPERIMENTS
         
-        a = value_to_pos['Punc']
+        a = value_to_pos['Det']['Art']
         b = value_to_pos['Nom']
         
-        print(b.pos_after(a))
+        print(a.being_after(b))
         
 #         xxx = [value_to_pos['Nom'].after[x] for x in value_to_pos['Nom'].after if x.parent and x.parent == 'Ver']
 #         print(sum(xxx))
