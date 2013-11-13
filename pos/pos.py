@@ -1,3 +1,5 @@
+import knowledge
+
 class PartOfSpeech:
     """
     Represents a part of speech (ie. a  linguistic category).
@@ -39,9 +41,8 @@ class PartOfSpeech:
     @staticmethod
     def create_from_tokens(tokens, child_separator=':', start_sentence_value='None', end_sentence_value='Punc'):
         """
-        Create PartOfSpeech objects as needed based on given tokens.
-        It computes emission and transition probabilities and
-        ties together each PartOfSpeech.
+        Create PartOfSpeech objects as needed based on given tokens
+        and ties together each PartOfSpeech.
         """
         
         value_to_pos = {}
@@ -74,9 +75,11 @@ class PartOfSpeech:
         # Sentence start
         previous_tag = start_sentence_value
         p_pos = value_to_pos[previous_tag]
+        value_to_word = {}
         
         for token in tokens:
-            tag = token[1]
+            word, tag = token
+            word = word.lower()
             tag_splitted = tag.split(child_separator)
             
             # Check if nested pos
@@ -84,6 +87,20 @@ class PartOfSpeech:
                 c_pos = value_to_pos[tag_splitted[0]][tag_splitted[1]]
             else:
                 c_pos = value_to_pos[tag]
+            
+            # Check if word exists
+            if word not in value_to_word:
+                value_to_word[word] = knowledge.Word(word)
+            else:
+                value_to_word[word].occurence += 1
+            
+            c_word = value_to_word[word]
+            
+            # Now check occurence for the c_pos
+            if c_pos not in c_word.being:
+                c_word.being[c_pos] = 1
+            else:
+                c_word.being[c_pos] += 1
             
             # Previous -> Current
             if c_pos not in p_pos.after:
@@ -106,10 +123,13 @@ class PartOfSpeech:
         
         ################# EXPERIMENTS
         
-        a = value_to_pos['Det']['Art']
+        a = value_to_pos['Det']['Pos']
         b = value_to_pos['Nom']
+        w = value_to_word['son']
         
-        print(a.being_after(b))
+        print(a.being_before(b))
+        print(b.being_after(a))
+        print(w.being_a(b))
         
 #         xxx = [value_to_pos['Nom'].after[x] for x in value_to_pos['Nom'].after if x.parent and x.parent == 'Ver']
 #         print(sum(xxx))
