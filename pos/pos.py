@@ -102,7 +102,7 @@ def create_from_tokens(tokens, child_separator=':', start_sentence_value='None',
     
     ################# /EXPERIMENTS
     
-    return { 'words' : value_to_word, 'poss' : value_to_pos }
+    return { 'words' : value_to_word, 'parts_of_speech' : value_to_pos }
 
 class PartOfSpeech:
     """

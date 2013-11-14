@@ -21,9 +21,11 @@ class BeardShell(cmd.Cmd):
             print('loading : %s ... ' % f, end='')
             tokens = self.tokenizer.tokenize_from_file(f)
             data = pos.create_from_tokens(tokens)
+            w = data.get('words', {})
+            p = data.get('parts_of_speech', {})
             print('successfuly loaded %s words and %s parts of speech!' 
-                  % (len(data.get('words', {})), len(data.get('poss', {}))))
-            # TODO Load tose data in the knowledge context
+                  % (len(w), len(p)))
+            self.context.teach(w, p)
     
     def do_t(self, arg):
         'ONLY FOR TESTS!'
