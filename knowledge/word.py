@@ -6,7 +6,7 @@ class Word:
     def __init__(self, value, occurence=1):
         self.value = value
         self.occurence = occurence
-        self.being = {}
+        self._being = {}
         
     def being_a(self, pos_obj):
         """
@@ -14,7 +14,7 @@ class Word:
         to be the given PartOfSpeech object.
         """
         
-        if pos_obj not in self.being:
+        if pos_obj not in self._being:
             return 0.0
         
-        return self.being[pos_obj] / self.occurence
+        return self._being[pos_obj] / self.occurence
