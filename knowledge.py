@@ -34,3 +34,6 @@ class Word:
             return 0.0
         
         return self._being[pos_obj] / self.occurence
+
+    def __repr__(self):
+        return "<%s>" % self.occurence

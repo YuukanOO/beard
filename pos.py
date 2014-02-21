@@ -1,5 +1,78 @@
 import codecs, re, knowledge
 
+"""
+Ver:Pres
+
+Ver, Pres
+{ 'Ver' : {} }
+
+
+"""
+
+def _find_child(tag, value_to_pos, parent_value = None, child_separator = ':'):
+    """
+    Find a nested PartOfSpeech.
+    """
+
+    chain = tag.split(child_separator, 1)
+    parent = chain[0]
+    if len(chain) > 1:
+        value_to_pos.setdefault(parent, {})
+        return _find_child(chain[1], value_to_pos[parent], parent, child_separator)
+    else:
+        child = PartOfSpeech(parent, parent_value, 0)
+        value_to_pos[parent] = child
+        return child
+
+
+def new_create(tokens, child_separator = ':', start_sentence_value = 'None', end_sentence_value = 'Punc'):
+    """
+    Refactoring of the below function.
+    """
+
+    value_to_pos = {} # Dictionary to link raw_tag to PartOfSpeech object
+    value_to_word = {} # Dictionary to link raw_word to Word object
+
+    # Start by creating our start sentence pos
+    start_pos = value_to_pos.setdefault(start_sentence_value, PartOfSpeech(start_sentence_value))
+    prev_pos = start_pos
+    cur_word = None
+    cur_pos = None
+
+    for token in tokens:
+        raw_word, raw_tag = token
+        raw_word = raw_word.lower() # To avoid mistakes, let's lower it
+
+        # Retrieve the Word object
+        cur_word = value_to_word.setdefault(raw_word, knowledge.Word(cur_word, occurence = 0))
+        # Increment occurence
+        cur_word.occurence += 1
+
+        # Retrieve the PartOfSpeech object
+        cur_pos = _find_child(raw_tag, value_to_pos) #value_to_pos.setdefault(raw_tag, PartOfSpeech(raw_tag, occurence = 0))
+        # Increment occurence
+        cur_pos.occurence += 1
+
+        # Increment the change for this word to be of type pos
+        cur_word._being.setdefault(cur_pos, 0)
+        cur_word._being[cur_pos] += 1
+
+        # Inform the previous part of speech that it appears before the current one
+        prev_pos._before.setdefault(cur_pos, 0)
+        prev_pos._before[cur_pos] += 1
+        
+        # Inform the current part of speech that it appears after the previous one
+        cur_pos._after.setdefault(prev_pos, 0)
+        cur_pos._after[prev_pos] += 1
+
+        # Let's update the chain
+        if raw_tag == end_sentence_value:
+            prev_pos = cur_pos
+        else:
+            prev_pos = start_pos        
+
+    return { 'words' : value_to_word, 'parts_of_speech' : value_to_pos }
+
 def create_from_tokens(tokens, child_separator = ':', start_sentence_value = 'None', end_sentence_value = 'Punc'):
     """
     Create PartOfSpeech objects as needed based on given tokens
@@ -82,26 +155,6 @@ def create_from_tokens(tokens, child_separator = ':', start_sentence_value = 'No
         else:
             raise
     
-    ################# EXPERIMENTS
-        
-#         xxx = [value_to_pos['Nom']._after[x] for x in value_to_pos['Nom']._after if x.parent and x.parent == 'Ver']
-#         print(sum(xxx))
-#         
-#         print('_after:')
-#         
-#         for a, b in value_to_pos['Nom']._after.items():
-#             print(a.value, a.parent, b)
-#             
-#         print('_before:')
-#         
-#         for a, b in value_to_pos['Ver']['Impe']._before.items():
-#             print(a.value, a.parent, b)
-    
-#         for a, b in value_to_pos['Ver']['Pres']._before.items():
-#             print(a.value, a.parent, b)
-    
-    ################# /EXPERIMENTS
-    
     return { 'words' : value_to_word, 'parts_of_speech' : value_to_pos }
 
 class Tokenizer:
@@ -164,12 +217,9 @@ class PartOfSpeech:
             return 0.0
         
         return self._before[pos_obj] / self.occurence
-        
-    def __str__(self):
-        return "%s - %s" % (self.value, self.occurence)
-    
+            
     def __repr__(self):
-        return "%s" % self.occurence
+        return "<%s (%s)>" % (self.value, self.occurence)
 
 class Tagger:
            
