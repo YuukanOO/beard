@@ -27,13 +27,6 @@ class BeardShell(cmd.Cmd):
                   % (len(w), len(p)))
             self.context.teach(w, p)
     
-    def do_t(self, arg):
-        'ONLY FOR TESTS!'
-        tokens = self.tokenizer.tokenize_from_file('data/corpus/fr.corpus')
-        print(tokens)
-        poss = pos.create_from_tokens(tokens)
-        print(poss)
-    
     def do_bye(self, arg):
         'Exit the Beard shell'
         print('See Ya!')

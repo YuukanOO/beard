@@ -1,4 +1,4 @@
-import knowledge
+import codecs, re, knowledge
 
 def create_from_tokens(tokens, child_separator=':', start_sentence_value='None', end_sentence_value='Punc'):
     """
@@ -104,6 +104,35 @@ def create_from_tokens(tokens, child_separator=':', start_sentence_value='None',
     
     return { 'words' : value_to_word, 'parts_of_speech' : value_to_pos }
 
+class Tokenizer:
+    
+    def __init__(self, delimiter='/'):
+        self.delimiter = delimiter
+    
+    def tokenize_from_file(self, filepath, encoding='utf-8'):
+        """
+        Tokenize a corpus from a given filepath.
+        """
+        
+        try:
+            f = codecs.open(filepath, encoding=encoding)
+            with f as content_file:
+                content = content_file.read()
+            return self.tokenize(content)
+        except:
+            return False
+        
+    def tokenize(self, string):
+        """
+        Tokenize the given string and return a list of tuples [(word, raw_pos)]
+        """
+
+        string = re.sub('[.]+', ' .', string)
+        string = re.sub('[?]+', ' ?', string)
+        string = re.sub('[!]+', ' !', string)
+        string = re.sub('[\n\r,]+', ' ', string)
+        return [tuple(token.split(self.delimiter)) for token in re.split('[ -]+', string)]
+
 class PartOfSpeech:
     """
     Represents a part of speech (ie. a  linguistic category).
@@ -141,3 +170,10 @@ class PartOfSpeech:
     
     def __repr__(self):
         return "%s" % self.occurence
+
+class Tagger:
+           
+    def tag(self, string):
+        """
+        Tag the given string.
+        """
