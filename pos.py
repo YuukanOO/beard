@@ -1,6 +1,6 @@
 import codecs, re, knowledge
 
-def create_from_tokens(tokens, child_separator=':', start_sentence_value='None', end_sentence_value='Punc'):
+def create_from_tokens(tokens, child_separator = ':', start_sentence_value = 'None', end_sentence_value = 'Punc'):
     """
     Create PartOfSpeech objects as needed based on given tokens
     and ties together each PartOfSpeech.
@@ -106,10 +106,10 @@ def create_from_tokens(tokens, child_separator=':', start_sentence_value='None',
 
 class Tokenizer:
     
-    def __init__(self, delimiter='/'):
+    def __init__(self, delimiter = '/'):
         self.delimiter = delimiter
     
-    def tokenize_from_file(self, filepath, encoding='utf-8'):
+    def tokenize_from_file(self, filepath, encoding = 'utf-8'):
         """
         Tokenize a corpus from a given filepath.
         """
@@ -138,7 +138,7 @@ class PartOfSpeech:
     Represents a part of speech (ie. a  linguistic category).
     """
     
-    def __init__(self, value, parent_value=None, occurence=1):
+    def __init__(self, value, parent_value = None, occurence = 1):
         self.value = value
         self.occurence = occurence
         self.parent = parent_value

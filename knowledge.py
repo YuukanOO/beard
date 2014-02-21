@@ -8,7 +8,7 @@ class Knowledge:
         self._words = {}
         self._parts_of_speech = {}
         
-    def teach(self, words={}, parts_of_speech={}):
+    def teach(self, words = {}, parts_of_speech = {}):
         """
         Teach this context with given words and/or parts_of_speech.
         This is the main method to train the context.
@@ -19,7 +19,7 @@ class Word:
     Represents a word (problem?).
     """
     
-    def __init__(self, value, occurence=1):
+    def __init__(self, value, occurence = 1):
         self.value = value
         self.occurence = occurence
         self._being = {}

@@ -16,7 +16,10 @@ class BeardShell(cmd.Cmd):
     def preloop(self):
         self._load_default_corpus()
     
-    def _load_default_corpus(self, lang='fr'):
+    def _load_default_corpus(self, lang = 'fr'):
+        """
+        Load default corpus for the desired language (default to 'fr')
+        """
         for f in glob.glob('data/corpus/%s*.corpus' % lang):
             print('loading : %s ... ' % f, end='')
             tokens = self.tokenizer.tokenize_from_file(f)
@@ -28,6 +31,8 @@ class BeardShell(cmd.Cmd):
             self.context.teach(w, p)
     
     def do_bye(self, arg):
-        'Exit the Beard shell'
+        """
+        Exit the Beard shell
+        """
         print('See Ya!')
         return True
