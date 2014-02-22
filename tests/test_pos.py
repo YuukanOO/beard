@@ -18,6 +18,25 @@ class TestPartOfSpeech(unittest.TestCase):
         self.assertEqual(child_pos.value, 'Val')
         self.assertEqual(child_pos.parent, 'Separated')
 
+    def test_get_leaves(self):
+
+        values = {
+            'Root': {
+                'Parent 0': {
+                    '0': 'Value 0',
+                    '1': 'Value 1'
+                },
+                'Parent 1': {
+                    '2': 'Value 2',
+                    '3': 'Value 3'
+                }
+            }
+        }
+
+        leaves = pos._get_leaves(values)
+        self.assertEqual(len(leaves), 4)
+        self.assertListEqual(sorted(leaves), ['Value 0', 'Value 1', 'Value 2', 'Value 3'])
+
     def test_create_from_tokens(self):
 
         tokenizer = pos.Tokenizer('/')
@@ -69,5 +88,5 @@ class TestPartOfSpeech(unittest.TestCase):
         self.assertAlmostEqual(name_pos.being_before(pres_verb_pos), 0.6666, 3)
 
         # Not yet implemented
-        # verb_pos = p['Ver']
-        # self.assertAlmostEqual(name_pos.being_before(verb_pos), 0.6666, 3)
+        verb_pos = p['Ver']
+        #self.assertAlmostEqual(name_pos.being_before(verb_pos), 0.6666, 3)

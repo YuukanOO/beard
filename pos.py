@@ -15,6 +15,21 @@ def _find_child(tag, value_to_pos, parent_value = None, child_separator = ':'):
         value_to_pos[parent] = child
         return child
 
+def _get_leaves(look_in):
+    """
+    Find leaves in dictionary.
+    """
+
+    res = []
+
+    for key, val in look_in.items():
+        if type(val) is dict:
+            res.extend(_get_leaves(val))
+        else:
+            res.append(val)
+
+    return res
+
 def create_from_tokens(tokens, child_separator = ':', start_sentence_value = 'None', end_sentence_value = 'Punc'):
     """
     Create PartOfSpeech objects as needed based on given tokens
@@ -105,32 +120,42 @@ class PartOfSpeech:
         self._before = {}
         self._after = {}
 
+    def _being(self, look_in, pos_obj):
+        """
+        Internal method to check if given pos_obj is contained in
+        look_in array and computes probability.
+        """
+
+        # Check if we passed a parent chain
+        if type(pos_obj) is dict:
+            # Retrieve the sum for children
+            return 0.0
+
+        if pos_obj not in look_in:
+            return 0.0
+
+        return look_in[pos_obj] / self.occurence
+
     def being_before(self, pos_obj):
         """
         Gets the probability of having this pos _before given pos_obj.
         """
 
-        if pos_obj not in self._after:
-            return 0.0
-
-        return self._after[pos_obj] / self.occurence
+        return self._being(self._after, pos_obj)
 
     def being_after(self, pos_obj):
         """
         Gets the probability of having this pos _after given pos_obj.
         """
 
-        if pos_obj not in self._before:
-            return 0.0
-
-        return self._before[pos_obj] / self.occurence
+        return self._being(self._before, pos_obj)
 
     def __repr__(self):
         return "<%s (%s)>" % (self.value, self.occurence)
 
 class Tagger:
 
-    def tag(self, string):
+    def tag(self, string, context):
         """
-        Tag the given string.
+        Tag the given string using the given context.
         """
