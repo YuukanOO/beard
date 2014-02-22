@@ -1,14 +1,5 @@
 import codecs, re, knowledge
 
-"""
-Ver:Pres
-
-Ver, Pres
-{ 'Ver' : {} }
-
-
-"""
-
 def _find_child(tag, value_to_pos, parent_value = None, child_separator = ':'):
     """
     Find a nested PartOfSpeech.
@@ -17,10 +8,10 @@ def _find_child(tag, value_to_pos, parent_value = None, child_separator = ':'):
     chain = tag.split(child_separator, 1)
     parent = chain[0]
     if len(chain) > 1:
-        value_to_pos.setdefault(parent, {})
-        return _find_child(chain[1], value_to_pos[parent], parent, child_separator)
+        parent_val = value_to_pos.setdefault(parent, {})
+        return _find_child(chain[1], parent_val, parent, child_separator)
     else:
-        child = PartOfSpeech(parent, parent_value, 0)
+        child = value_to_pos.setdefault(parent, PartOfSpeech(parent, parent_value, 0))
         value_to_pos[parent] = child
         return child
 
@@ -69,7 +60,7 @@ def new_create(tokens, child_separator = ':', start_sentence_value = 'None', end
         if raw_tag == end_sentence_value:
             prev_pos = cur_pos
         else:
-            prev_pos = start_pos        
+            prev_pos = start_pos 
 
     return { 'words' : value_to_word, 'parts_of_speech' : value_to_pos }
 

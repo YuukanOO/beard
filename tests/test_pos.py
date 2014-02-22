@@ -2,7 +2,7 @@ import unittest
 import pos
 
 class TestPartOfSpeech(unittest.TestCase):
-    
+
     string = "Un/Det:Art chat/Nom mange/Ver:Pres une/Det:Art souris/Nom./Punc Un/Det:Art garçon/Nom sourit/Ver:Pres./Punc"
 
     def test_find_child(self):
@@ -10,7 +10,7 @@ class TestPartOfSpeech(unittest.TestCase):
         val_to_pos = {}
 
         child_pos = pos._find_child('Ver:Pres', val_to_pos)
-        
+
         self.assertEqual(child_pos.value, 'Pres')
         self.assertEqual(child_pos.parent, 'Ver')
 
@@ -19,7 +19,7 @@ class TestPartOfSpeech(unittest.TestCase):
         self.assertEqual(child_pos.parent, 'Separated')
 
     def test_create_from_tokens(self):
-        
+
         tokenizer = pos.Tokenizer('/')
         tokens = tokenizer.tokenize(self.string)
         data = pos.create_from_tokens(tokens)
@@ -39,9 +39,9 @@ class TestPartOfSpeech(unittest.TestCase):
         data = pos.new_create(tokens)
 
     def test_part_of_speech_properties(self):
-        
+
         tokens = pos.Tokenizer('/').tokenize(self.string)
-        data = pos.create_from_tokens(tokens)
+        data = pos.new_create(tokens)
 
         w = data.get('words', {})
         p = data.get('parts_of_speech', {})
