@@ -89,4 +89,4 @@ class TestPartOfSpeech(unittest.TestCase):
 
         # Not yet implemented
         verb_pos = p['Ver']
-        #self.assertAlmostEqual(name_pos.being_before(verb_pos), 0.6666, 3)
+        self.assertAlmostEqual(name_pos.being_before(verb_pos), 0.6666, 3)

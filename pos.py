@@ -129,7 +129,12 @@ class PartOfSpeech:
         # Check if we passed a parent chain
         if type(pos_obj) is dict:
             # Retrieve the sum for children
-            return 0.0
+            leaves = _get_leaves(pos_obj)
+            computed = 0.0
+            for leaf in leaves:
+                computed += look_in[leaf]
+            computed /= len(leaves)
+            return computed / self.occurence
 
         if pos_obj not in look_in:
             return 0.0
