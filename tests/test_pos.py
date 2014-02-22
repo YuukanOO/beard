@@ -33,15 +33,10 @@ class TestPartOfSpeech(unittest.TestCase):
         self.assertEqual(len(w), 8)
         self.assertEqual(len(p), 5) # Don't forget the None Pos (start of paragraph)
 
-    def test_new_create(self):
-        tokenizer = pos.Tokenizer('/')
-        tokens = tokenizer.tokenize(self.string)
-        data = pos.new_create(tokens)
-
     def test_part_of_speech_properties(self):
 
         tokens = pos.Tokenizer('/').tokenize(self.string)
-        data = pos.new_create(tokens)
+        data = pos.create_from_tokens(tokens)
 
         w = data.get('words', {})
         p = data.get('parts_of_speech', {})
