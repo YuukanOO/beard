@@ -1,2 +1,2 @@
 test:
-	python run_tests
+	python run_tests.py
