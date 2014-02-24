@@ -14,6 +14,19 @@ class Knowledge:
         This is the main method to train the context.
         """
 
+        # Start by importing words into this context
+        for raw, word in words.items():
+            if raw in self._words:
+                k_word = self._words[raw]
+                k_word.occurence += word.occurence
+                for pos, pos_occurence in word._being.items():
+                    if pos in k_word._being:
+                        k_word._being[pos] += pos_occurence
+                    else:
+                        k_word._being[pos] = pos_occurence
+            else:
+                self._words[raw] = word
+
 class Word:
     """
     Represents a word (problem?).
