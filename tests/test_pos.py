@@ -6,7 +6,6 @@ class TestPartOfSpeech(unittest.TestCase):
     string = "Un/Det:Art chat/Nom mange/Ver:Pres une/Det:Art souris/Nom./Punc Un/Det:Art garçon/Nom sourit/Ver:Pres./Punc"
 
     def test_find_child(self):
-
         val_to_pos = {}
 
         child_pos = pos._find_child('Ver:Pres', val_to_pos)
