@@ -1,4 +1,4 @@
-Beard
+Beard [![Build Status](https://travis-ci.org/YuukanOO/beard.png?branch=master)](https://travis-ci.org/YuukanOO/beard)
 =====
 
 Natural Language Processing experiments using Python 3.
