@@ -158,6 +158,15 @@ class PartOfSpeech:
     def __repr__(self):
         return "<%s (%s)>" % (self.value, self.occurence)
 
+    # Since PartOfSpeech objects are used as dictionary key, override the hash
+    # and comparator functions.
+    
+    def __hash__(self):
+        return hash((self.value))
+
+    def __eq__(self, other):
+        return self.value == other.value
+
 class Tagger:
 
     def tag(self, string, context):

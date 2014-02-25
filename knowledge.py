@@ -8,13 +8,38 @@ class Knowledge:
         self._words = {}
         self._parts_of_speech = {}
         
-    def teach(self, words = {}, parts_of_speech = {}):
+    def _process_pos(self, poss, look_in):
         """
-        Teach this context with given words and/or parts_of_speech.
-        This is the main method to train the context.
+        Recursively process Part of SpeechS to adjust knowledge probabilities.
         """
 
-        # Start by importing words into this context
+        for raw, val in poss.items():
+            if raw in look_in:
+                if type(val) is dict:
+                    self._process_pos(val, look_in[raw])
+                else:
+                    k_pos = look_in[raw]
+                    k_pos.occurence += val.occurence
+                    # Process before probabilities
+                    for pos, occurence in val._before.items():
+                        if pos in k_pos._before:
+                            k_pos._before[pos] += occurence
+                        else:
+                            k_pos._before[pos] = occurence
+                    # And after
+                    for pos, occurence in val._after.items():
+                        if pos in k_pos._after:
+                            k_pos._after[pos] += occurence
+                        else:
+                            k_pos._after[pos] = occurence
+            else:
+                self._parts_of_speech[raw] = val
+
+    def _process_words(self, words):
+        """
+        Process given words to adjust knowledge probabilities.
+        """
+
         for raw, word in words.items():
             if raw in self._words:
                 k_word = self._words[raw]
@@ -26,6 +51,15 @@ class Knowledge:
                         k_word._being[pos] = pos_occurence
             else:
                 self._words[raw] = word
+
+    def teach(self, words = {}, parts_of_speech = {}):
+        """
+        Teach this context with given words and/or parts_of_speech.
+        This is the main method to train the context.
+        """
+
+        self._process_words(words)
+        self._process_pos(parts_of_speech, self._parts_of_speech)
 
 class Word:
     """
