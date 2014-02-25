@@ -22,6 +22,7 @@ class TestKnowledge(unittest.TestCase):
         self.assertTrue(context._parts_of_speech['Det']['Art'])
         self.assertEqual(len(context._parts_of_speech), 5)
         self.assertEqual(context._parts_of_speech['Nom'].occurence, 3)
+        self.assertEqual(context._parts_of_speech['Det']['Art'].occurence, 3)
 
         art_pos = context._parts_of_speech['Det']['Art']
         self.assertEqual(context._parts_of_speech['Nom']._before[art_pos], 3)
@@ -30,6 +31,7 @@ class TestKnowledge(unittest.TestCase):
         self.assertEqual(len(context._parts_of_speech), 5)
         self.assertEqual(context._parts_of_speech['Nom'].occurence, 6)
         self.assertEqual(context._parts_of_speech['Nom']._before[art_pos], 6)
+        self.assertEqual(context._parts_of_speech['Det']['Art'].occurence, 6)
 
         # And check with another corpus
         tokens = tokenizer.tokenize(self.other_corpus)
@@ -40,6 +42,7 @@ class TestKnowledge(unittest.TestCase):
         self.assertEqual(len(context._parts_of_speech), 5)
         self.assertEqual(context._parts_of_speech['Nom'].occurence, 7)
         self.assertEqual(context._parts_of_speech['Nom']._before[art_pos], 7)
+        self.assertEqual(context._parts_of_speech['Det']['Art'].occurence, 7)
 
     def test_teach_words(self):
         context = knowledge.Knowledge()
