@@ -10,7 +10,7 @@ class Knowledge:
         self._words = {}
         self._parts_of_speech = {}
         
-    def process_pos(self, poss, look_in = None):
+    def teach_parts_of_speech(self, poss, look_in = None):
         """
         Recursively process Part of SpeechS to adjust knowledge probabilities.
         """
@@ -20,7 +20,7 @@ class Knowledge:
         for raw, val in poss.items():
             if raw in look_in:
                 if type(val) is dict:
-                    self.process_pos(val, look_in[raw])
+                    self.teach_parts_of_speech(val, look_in[raw])
                 else:
                     k_pos = look_in[raw]
                     k_pos.occurence += val.occurence
@@ -39,7 +39,7 @@ class Knowledge:
             else:
                 self._parts_of_speech[raw] = val
 
-    def process_words(self, words):
+    def teach_words(self, words):
         """
         Process given words to adjust knowledge probabilities.
         """
@@ -62,8 +62,8 @@ class Knowledge:
         This is the main method to train the context.
         """
 
-        self.process_words(words)
-        self.process_pos(parts_of_speech)
+        self.teach_words(words)
+        self.teach_parts_of_speech(parts_of_speech)
 
 class Word:
     """
