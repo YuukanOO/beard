@@ -1,4 +1,4 @@
-import pos
+import swissknife
 
 class Knowledge:
     """
@@ -84,7 +84,7 @@ class Word:
         # Check if we passed a parent chain
         if type(pos_obj) is dict:
             # Retrieve the sum for children
-            leaves = pos._get_leaves(pos_obj)
+            leaves = swissknife.get_leaves(pos_obj)
             computed = 0.0
             for leaf in leaves:
                 computed += self._being.get(leaf, 0.0)

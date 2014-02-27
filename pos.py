@@ -1,34 +1,4 @@
-import codecs, re, knowledge
-
-def _find_child(tag, value_to_pos, parent_value = None, child_separator = ':'):
-    """
-    Find a nested PartOfSpeech.
-    """
-
-    chain = tag.split(child_separator, 1)
-    parent = chain[0]
-    if len(chain) > 1:
-        parent_val = value_to_pos.setdefault(parent, {})
-        return _find_child(chain[1], parent_val, parent, child_separator)
-    else:
-        child = value_to_pos.setdefault(parent, PartOfSpeech(parent, parent_value, 0))
-        value_to_pos[parent] = child
-        return child
-
-def _get_leaves(look_in):
-    """
-    Find leaves in dictionary.
-    """
-
-    res = []
-
-    for key, val in look_in.items():
-        if type(val) is dict:
-            res.extend(_get_leaves(val))
-        else:
-            res.append(val)
-
-    return res
+import codecs, re, knowledge, swissknife
 
 def create_from_tokens(tokens, child_separator = ':', start_sentence_value = 'None', end_sentence_value = 'Punc'):
     """
@@ -55,7 +25,7 @@ def create_from_tokens(tokens, child_separator = ':', start_sentence_value = 'No
         cur_word.occurence += 1
 
         # Retrieve the PartOfSpeech object
-        cur_pos = _find_child(raw_tag, value_to_pos) #value_to_pos.setdefault(raw_tag, PartOfSpeech(raw_tag, occurence = 0))
+        cur_pos = swissknife.find_child(raw_tag, value_to_pos) #value_to_pos.setdefault(raw_tag, PartOfSpeech(raw_tag, occurence = 0))
         # Increment occurence
         cur_pos.occurence += 1
 
@@ -129,7 +99,7 @@ class PartOfSpeech:
         # Check if we passed a parent chain
         if type(pos_obj) is dict:
             # Retrieve the sum for children
-            leaves = _get_leaves(pos_obj)
+            leaves = swissknife.get_leaves(pos_obj)
             computed = 0.0
             for leaf in leaves:
                 computed += look_in.get(leaf, 0.0)
