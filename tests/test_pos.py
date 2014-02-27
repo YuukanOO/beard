@@ -1,9 +1,8 @@
+import base_test
 import unittest
 import pos
 
-class TestPartOfSpeech(unittest.TestCase):
-
-    string = "Un/Det:Art chat/Nom mange/Ver:Pres une/Det:Art souris/Nom./Punc Un/Det:Art garçon/Nom sourit/Ver:Pres./Punc"
+class TestPosModule(base_test.RequireTokens):
 
     def test_find_child(self):
         val_to_pos = {}
@@ -38,9 +37,7 @@ class TestPartOfSpeech(unittest.TestCase):
 
     def test_create_from_tokens(self):
 
-        tokenizer = pos.Tokenizer('/')
-        tokens = tokenizer.tokenize(self.string)
-        data = pos.create_from_tokens(tokens)
+        data = pos.create_from_tokens(self.tokens_01)
 
         w = data.get('words', {})
         p = data.get('parts_of_speech', {})
@@ -48,5 +45,5 @@ class TestPartOfSpeech(unittest.TestCase):
         self.assertTrue(w)
         self.assertTrue(p)
 
-        self.assertEqual(len(w), 8)
-        self.assertEqual(len(p), 5) # Don't forget the None Pos (start of paragraph)
+        self.assertEqual(len(w), 14)
+        self.assertEqual(len(p), 7) # Don't forget the None Pos (start of paragraph)

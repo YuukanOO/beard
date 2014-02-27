@@ -132,8 +132,8 @@ class PartOfSpeech:
             leaves = _get_leaves(pos_obj)
             computed = 0.0
             for leaf in leaves:
-                computed += look_in[leaf]
-            computed /= len(leaves)
+                if leaf in look_in:
+                    computed += look_in[leaf]
             return computed / self.occurence
 
         if pos_obj not in look_in:
