@@ -6,7 +6,7 @@ class TestPartOfSpeech(base_test.RequireDatas):
 
     def test_part_of_speech_properties(self):
 
-        w, p = self.words_01, self.pos_01
+        p = self.pos_01
 
         name_pos = p['Nom']
         pres_verb_pos = p['Ver']['Pres']
@@ -22,7 +22,7 @@ class TestPartOfSpeech(base_test.RequireDatas):
 
     def test_part_of_speech_probabilities(self):
 
-        w, p = self.words_01, self.pos_01
+        p = self.pos_01
 
         name_pos = p['Nom']
         verb_pos = p['Ver']
@@ -33,7 +33,7 @@ class TestPartOfSpeech(base_test.RequireDatas):
         self.assertAlmostEqual(name_pos.being_before(pres_verb_pos), 0.2857, 3)
         self.assertAlmostEqual(name_pos.being_before(verb_pos), 0.4285, 3)
 
-        w, p = self.words_02, self.pos_02
+        p = self.pos_02
 
         name_pos = p['Nom']
         verb_pos = p['Ver']
