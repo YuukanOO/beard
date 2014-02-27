@@ -1,5 +1,5 @@
+from beard import pos
 import unittest
-import pos
 import os
 
 class RequireTokens(unittest.TestCase):

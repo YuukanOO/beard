@@ -1,10 +1,10 @@
-import pos
-
 def find_child(tag, value_to_pos, parent_value = None, child_separator = ':'):
     """
     Find or create a nested PartOfSpeech and returns it.
     """
 
+    from beard import pos
+    
     chain = tag.split(child_separator, 1)
     parent = chain[0]
     if len(chain) > 1:

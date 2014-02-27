@@ -1,6 +1,6 @@
+from beard import knowledge
+from beard import pos
 import cmd
-import pos
-import knowledge
 import glob
 
 class BeardShell(cmd.Cmd):

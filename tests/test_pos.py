@@ -1,6 +1,6 @@
+from beard import pos
 import base_test
 import unittest
-import pos
 
 class TestPosModule(base_test.RequireTokens):
 

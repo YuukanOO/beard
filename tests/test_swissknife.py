@@ -1,4 +1,4 @@
-import swissknife
+from beard import swissknife
 import unittest
 
 class TestSwissKnife(unittest.TestCase):

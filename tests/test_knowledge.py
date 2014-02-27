@@ -1,6 +1,6 @@
+from beard import knowledge
 import base_test
 import unittest
-import knowledge
 
 class TestKnowledge(base_test.RequireDatas):  
 

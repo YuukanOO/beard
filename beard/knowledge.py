@@ -1,4 +1,4 @@
-import swissknife
+from beard import swissknife
 
 class Knowledge:
     """

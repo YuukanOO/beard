@@ -1,4 +1,7 @@
-import codecs, re, knowledge, swissknife
+from beard import swissknife
+from beard import knowledge
+import codecs
+import re
 
 def create_from_tokens(tokens, child_separator = ':', start_sentence_value = 'None', end_sentence_value = 'Punc'):
     """
