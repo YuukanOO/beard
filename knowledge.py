@@ -1,3 +1,5 @@
+import pos
+
 class Knowledge:
     """
     Represents a knowledge structure, a context. Contains each word, part of speech tags
@@ -79,6 +81,15 @@ class Word:
         to be the given PartOfSpeech object.
         """
         
+        # Check if we passed a parent chain
+        if type(pos_obj) is dict:
+            # Retrieve the sum for children
+            leaves = pos._get_leaves(pos_obj)
+            computed = 0.0
+            for leaf in leaves:
+                computed += self._being.get(leaf, 0.0)
+            return computed / self.occurence
+
         if pos_obj not in self._being:
             return 0.0
         

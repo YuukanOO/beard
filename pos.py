@@ -90,7 +90,7 @@ class Tokenizer:
         """
 
         try:
-            f = codecs.open(filepath, encoding=encoding)
+            f = codecs.open(filepath, encoding = encoding)
             with f as content_file:
                 content = content_file.read()
             return self.tokenize(content)
@@ -132,8 +132,7 @@ class PartOfSpeech:
             leaves = _get_leaves(pos_obj)
             computed = 0.0
             for leaf in leaves:
-                if leaf in look_in:
-                    computed += look_in[leaf]
+                computed += look_in.get(leaf, 0.0)
             return computed / self.occurence
 
         if pos_obj not in look_in:

@@ -1,6 +1,5 @@
 import base_test
 import unittest
-import pos
 
 class TestPartOfSpeech(base_test.RequireDatas):
 

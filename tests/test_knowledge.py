@@ -2,6 +2,8 @@ import unittest
 import pos
 import knowledge
 
+# @TODO Refactor it
+
 class TestKnowledge(unittest.TestCase):
 
     corpus = "Un/Det:Art chat/Nom mange/Ver:Pres une/Det:Art souris/Nom./Punc Un/Det:Art garçon/Nom sourit/Ver:Pres./Punc"
